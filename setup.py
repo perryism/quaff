@@ -1,7 +1,7 @@
 from distutils.core import setup
 
-setup(name='flaskquaff',
+setup(name='quaff',
       version='0.1',
-      packages=['flaskquaff'],
+      packages=['quaff'],
       install_requires=['flask'],
       )

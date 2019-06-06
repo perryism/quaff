@@ -1,4 +1,3 @@
-from flask import request
 from .strategies import flask_request
 
 class quaff(object):

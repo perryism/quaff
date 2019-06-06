@@ -3,12 +3,12 @@
 ## Install
 
 <pre>
-pip install git+https://github.com/perryism/flask-quaff.git
+pip install git+https://github.com/perryism/quaff.git
 </pre>
 
 <pre>
 from flask import Flask, request
-from flaskquaff import quaff
+from quaff import quaff
 
 flask_app = Flask(__name__)
 
