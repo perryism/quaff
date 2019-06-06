@@ -1,9 +1,13 @@
 from flask import request
+from .strategies import flask_request
 
 class quaff(object):
-    def __init__(self, app, rule):
+    def __init__(self, app, rule, strategy=None):
         self.rule = rule
         self.app = app
+
+        if strategy is None:
+            self.strategy = flask_request
 
     def __call__(self, func):
         #args will be ignored on purpose
@@ -25,5 +29,5 @@ class quaff(object):
         args = {}
         for var_name, tipe in func.__annotations__.items():
             if var_name == "return" : continue
-            args[var_name] = tipe(self._get_var(var_name))
+            args[var_name] = tipe(self.strategy(var_name))
         return args
