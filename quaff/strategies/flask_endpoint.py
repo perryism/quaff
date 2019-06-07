@@ -1,6 +1,7 @@
 from flask import request
+from .strategy_base import StrategyBase
 
-class FlaskEndpoint:
+class FlaskEndpoint(StrategyBase):
     def __init__(self, app, rule):
         self.rule = rule
         self.app = app
