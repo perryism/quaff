@@ -1,32 +1,22 @@
-from .strategies import flask_request
-
 class quaff(object):
-    def __init__(self, app, rule, strategy=None):
-        self.rule = rule
-        self.app = app
-
-        if strategy is None:
-            self.strategy = flask_request
+    def __init__(self, strategy):
+        self.strategy = strategy
 
     def __call__(self, func):
+        self.strategy.before_setup(func)
         #args will be ignored on purpose
         def wrapped_f(*args):
             args = self._get_args(func)
             result = func(**args)
             return str(result)
 
-        self.app.add_url_rule(self.rule, func.__name__, wrapped_f)
-        return wrapped_f
+        self.strategy.before_return(func, wrapped_f)
 
-    def _get_var(self, var_name):
-        if request.method == "POST":
-            return request.form[var_name]
-        else:
-            return request.args.get(var_name)
+        return wrapped_f
 
     def _get_args(self, func):
         args = {}
         for var_name, tipe in func.__annotations__.items():
             if var_name == "return" : continue
-            args[var_name] = tipe(self.strategy(var_name))
+            args[var_name] = tipe(self.strategy.get_var(var_name))
         return args
