@@ -1,15 +1,15 @@
 import unittest
 from quaff import quaff
+from quaff.strategies import FlaskEndpoint
 
 from flask import Flask
 app = Flask(__name__)
-from quaff.strategies import FlaskEndpoint
 
 def add(x, y):
     return x + y
 
 @quaff(FlaskEndpoint(app, "/add"))
-def add_api(y: int = 0, x: int = 0) -> int:
+def add_api(y: int, x: int) -> int:
     return add(x, y)
 
 class FlaskQuaffTest(unittest.TestCase):
