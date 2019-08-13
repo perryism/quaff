@@ -12,6 +12,11 @@ def add(x, y):
 def add_api(y: int, x: int) -> int:
     return add(x, y)
 
+
+@quaff(FlaskEndpoint(app, "/json"))
+def json(body: dict):
+    return add(body["x"], body["y"])
+
 class FlaskQuaffTest(unittest.TestCase):
     def setUp(self):
         global app
@@ -24,3 +29,7 @@ class FlaskQuaffTest(unittest.TestCase):
 
         rv = self.client.get('/add?x=3&y=10')
         self.assertEqual(b"13", rv.data)
+
+    def test_json(self):
+        rv = self.client.post("/json", json={"x": 3, "y": 9})
+        self.assertEqual(b"12", rv.data)
