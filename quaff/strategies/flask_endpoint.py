@@ -10,11 +10,13 @@ class FlaskEndpoint(StrategyBase):
         pass
 
     def before_return(self, func, wrapped_f):
-        self.app.add_url_rule(self.rule, func.__name__, wrapped_f)
+        self.app.add_url_rule(self.rule, func.__name__, wrapped_f, methods=["GET", "POST"])
 
     def get_var(self, var_name):
         global request
-        if request.method == "POST":
+        if request.is_json:
+            return request.get_json()
+        elif request.method == "POST":
             return request.form[var_name]
         else:
             return request.args.get(var_name)

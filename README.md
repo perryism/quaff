@@ -25,6 +25,11 @@ def add(x, y):
 def add_api(y: int, x: int):
     return add(x, y)
 
+# It supports JSON
+@quaff(FlaskEndpoint(flask_app, "/add_json"))
+def add_api(body: dict):
+    return add(body["x"], body["y"])
+
 flask_app.run(host = '0.0.0.0',port=5555)
 </pre>
 
