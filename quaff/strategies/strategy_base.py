@@ -14,3 +14,8 @@ class StrategyBase:
             if var_name == "return" : continue
             args[var_name] = tipe(self.get_var(var_name))
         return args
+
+    def perform(self, func):
+        args = self.get_args(func)
+        result = func(**args)
+        return result

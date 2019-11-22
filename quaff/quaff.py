@@ -9,8 +9,7 @@ class quaff(object):
         self.strategy.before_setup(func)
         #args will be ignored on purpose
         def wrapped_f(*args):
-            args = self.strategy.get_args(func)
-            result = func(**args)
+            result = self.strategy.perform(func)
             return self.output(result)
 
         self.strategy.before_return(func, wrapped_f)
