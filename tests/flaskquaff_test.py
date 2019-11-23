@@ -27,7 +27,7 @@ class FlaskQuaffTest(unittest.TestCase):
         # TODO: handle errors
         # self.assertRaises(TypeError, self.client.get('/add'))
 
-        rv = self.client.get('/add?x=3&y=10')
+        rv = self.client.post('/add', data=dict(x=3, y=10))
         self.assertEqual(b"13", rv.data)
 
     def test_json(self):
