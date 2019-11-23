@@ -1,5 +1,38 @@
 from flask import request
 from .strategy_base import StrategyBase
+from jinja2 import Template
+
+CSS_TEMPLATE = """
+<style>
+    .param {
+        margin: 5px;
+    }
+</style>
+"""
+
+FORM_TEMPLATE = """
+{% block content %}
+<form method="POST">
+  <div id="params">
+  {% for element in elements %}
+    <div class="param">
+    {{ element[0] }}: <input type="input" name="{{ element[0] }}" /><br />
+    </div>
+  {% endfor %}
+  </div>
+  <div name="action">
+    <input type="submit" value="{{ action_name }}" />
+  </div>
+</form>
+{% endblock %}
+"""
+
+class FormRenderer:
+    def __init__(self, template_script, css):
+        self.template = Template(css + template_script)
+
+    def render(self, elements, action_name):
+        return self.template.render(elements=elements, action_name=action_name)
 
 class FlaskEndpoint(StrategyBase):
     def __init__(self, app, rule):
