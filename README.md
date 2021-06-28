@@ -22,7 +22,7 @@ def add(x, y):
 
 # It auto-generates a simple form
 @quaff(FlaskForm(flask_app, "/add")
-def add_api(y: int, x: int):
+def add_api_json(y: int, x: int):
     return add(x, y)
 
 flask_app.run(host = '0.0.0.0',port=5555)
@@ -30,7 +30,7 @@ flask_app.run(host = '0.0.0.0',port=5555)
 
 
 <pre>
-curl http://localhost:5000?x=10&y=11
+curl http://localhost:5000/add?x=10&y=11
 </pre>
 
 ### Customize html, and CSS
@@ -71,6 +71,12 @@ curl http://localhost:5000?x=10&y=11
 ## Command args
 
 <pre>
+from quaff.strategies import CommandArgs
+from quaff import quaff
+
+def add(x, y):
+    return x + y
+
 @quaff(CommandArgs("Add"))
 def add_api(y: int, x: int):
     return add(x, y)
